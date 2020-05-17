@@ -1,0 +1,16 @@
+{
+  "name": "rcondiscord",
+  "version": "1.0.0",
+  "description": "Bot for Discord/CSGO Rcon cross communication",
+  "main": "main.js",
+  "scripts": {
+    "start ": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "discord.js": "^12.2.0"
+  }
+}
