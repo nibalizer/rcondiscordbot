@@ -23,7 +23,6 @@ client.on('message', msg => {
       }
     })
     .then(function (response) {
-      console.log(response);
       msg.reply('Fetching server status!\n' + "```" + response.data.RconResponse.Output + "```");
     })
     .catch(function (error) {
@@ -44,7 +43,6 @@ client.on('message', msg => {
         }
       })
       .then(function (response) {
-        console.log(response);
         msg.reply('Changing map to ' + map_name + '!\n' + "```" + response.data.RconResponse.Output + "```");
       })
       .catch(function (error) {
