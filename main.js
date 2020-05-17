@@ -52,4 +52,25 @@ client.on('message', msg => {
 });
 
 
+// workshop command
+client.on('message', msg => {
+  if (msg.content.includes('%workshop')) {
+    var workshop_map_number = msg.content.split(" ")[1]
+    axios.post(process.env.RCONWEBAPI_URL, {
+        RconRequest: {
+          Address: process.env.RCON_ADDRESS,
+          Password: process.env.RCON_PASSWORD,
+          Command: "host_workshop_map " + workshop_map_number
+        }
+      })
+      .then(function (response) {
+        msg.reply('Changing map to ' + workshop_map_number + '!\n' + "```" + response.data.RconResponse.Output + "```");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+});
+
+
 client.login(process.env.DISCORD_TOKEN);
