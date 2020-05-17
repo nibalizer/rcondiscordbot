@@ -73,4 +73,19 @@ client.on('message', msg => {
 });
 
 
+// raw command
+client.on('message', msg => {
+  if (msg.content.startsWith('%rcon')) {
+    var command_strings = msg.content.split(" ").slice(1,40) // just a big number
+    var cmd = command_strings.join(" ");
+    command(cmd, function (response) {
+      if (response.data.RconResponse.Output.length > 0) {
+        msg.reply('Raw Command: ' + cmd + '!\n' + "```" + response.data.RconResponse.Output + "```");
+      } else {
+        msg.reply('Raw Command: ' + cmd + '!\n');
+      }
+    });
+  }
+});
+
 client.login(process.env.DISCORD_TOKEN);
