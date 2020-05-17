@@ -12,12 +12,13 @@ client.on('message', msg => {
   }
 });
 
+// Status command
 client.on('message', msg => {
   if (msg.content === '%status') {
   axios.post(process.env.RCONWEBAPI_URL, {
       RconRequest: {
-        Address: "process.env.RCON_ADDRESS",
-        Password: "process.env.RCON_PASSWORD",
+        Address: process.env.RCON_ADDRESS,
+        Password: process.env.RCON_PASSWORD,
         Command: "status"
       }
     })
@@ -30,5 +31,27 @@ client.on('message', msg => {
     });
   }
 });
+
+// change level command
+client.on('message', msg => {
+  if (msg.content.includes('%changelevel')) {
+    var map_name = msg.content.split(" ")[1]
+    axios.post(process.env.RCONWEBAPI_URL, {
+        RconRequest: {
+          Address: process.env.RCON_ADDRESS,
+          Password: process.env.RCON_PASSWORD,
+          Command: "changelevel " + map_name
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+        msg.reply('Changing map to ' + map_name + '!\n' + "```" + response.data.RconResponse.Output + "```");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+});
+
 
 client.login(process.env.DISCORD_TOKEN);
