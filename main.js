@@ -30,6 +30,20 @@ function command(cmd, cb) {
 
 // Status command
 client.on('message', msg => {
+  if (msg.content === '%help') {
+    text = `Help contents:
+> %status                 - get server status
+> %workshop <id number>   - switch to specified workshop map
+> %changelevel <map name> - switch to specified map
+> %rcon <arg1> <argN>     - raw command interface
+> %surf <optional:speed>  - run commands to turn on surfing. Speed defaults to 800
+`
+    msg.reply("```" + text + "```");
+  }
+});
+
+// Status command
+client.on('message', msg => {
   if (msg.content === '%status') {
     var cmd = "status";
     command(cmd, function(resp){
@@ -40,7 +54,7 @@ client.on('message', msg => {
 
 // change level command
 client.on('message', msg => {
-  if (msg.content.includes('%changelevel')) {
+  if (msg.content.startsWith('%changelevel')) {
     var map_name = msg.content.split(" ")[1]
     var cmd  = "changelevel " + map_name
     command(cmd, function (response) {
@@ -52,7 +66,7 @@ client.on('message', msg => {
 
 // workshop command
 client.on('message', msg => {
-  if (msg.content.includes('%workshop')) {
+  if (msg.content.startsWith('%workshop')) {
     var workshop_map_number = msg.content.split(" ")[1]
     var cmd = "host_workshop_map " + workshop_map_number
     command(cmd, function (response) {
@@ -68,7 +82,7 @@ client.on('message', msg => {
     var command_strings = msg.content.split(" ").slice(1,40) // just a big number
     var cmd = command_strings.join(" ");
     command(cmd, function (response) {
-      if (response.data.RconResponse.Output.length > 0) {
+      if (response.data.rcon_response.output.length > 0) {
         msg.reply('Raw Command: `' + cmd + '`\n' + "```" + response.data.rcon_response.output + "```");
       } else {
         msg.reply('Raw Command: `' + cmd + '`!\n');
@@ -115,7 +129,7 @@ client.on('message', msg => {
     }
     cmds.forEach(function(cmd) {
       command(cmd, function (response) {
-        if (response.data.RconResponse.Output.length > 0) {
+        if (response.data.rcon_response.output.length > 0) {
           msg.reply('Installed surf setting: `' + cmd + '`\n' + "```" + response.data.rcon_response.output + "```");
         } else {
           msg.reply('Installed surf setting: `' + cmd + '`\n');
