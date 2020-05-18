@@ -77,4 +77,52 @@ client.on('message', msg => {
   }
 });
 
+
+// surfmode command
+client.on('message', msg => {
+  if (msg.content.startsWith('%surf')) {
+    var air_accel = msg.content.split(" ")[1]
+    cmds = [
+      // Enable cheats
+      "sv_cheats 1",
+      //noclip humans
+      "mp_solid_teammates 0",
+      //respawns
+      "mp_respawn_on_death_ct 1",
+      "mp_respawn_on_death_t 1",
+      // enable bunnyhopping
+      "sv_enablebunnyhopping 1",
+      "sv_staminamax 0",
+      "sv_staminajumpcost 0",
+      "sv_staminalandcost 0",
+      "sv_staminarecoveryrate 0",
+      // any weapon surf
+      "sv_accelerate_use_weapon_speed 0",
+      // round time hacks
+      "mp_roundtime 999999",
+      "mp_timelimit 999999",
+      "mp_round_restart_delay 0",
+      "mp_roundtime_deployment 0",
+      "endround", //round time take effect now
+      "bot_kick all", //no bots
+      "sv_accelerate 10",
+    ]
+
+    if (air_accel != undefined) {
+      cmds.push("sv_airaccelerate " + air_accel);
+    } else {
+      cmds.push("sv_airaccelerate 800");
+    }
+    cmds.forEach(function(cmd) {
+      command(cmd, function (response) {
+        if (response.data.RconResponse.Output.length > 0) {
+          msg.reply('Installed surf setting: `' + cmd + '`\n' + "```" + response.data.RconResponse.Output + "```");
+        } else {
+          msg.reply('Installed surf setting: `' + cmd + '`\n');
+        }
+      });
+    });
+  }
+});
+
 client.login(process.env.DISCORD_TOKEN);
