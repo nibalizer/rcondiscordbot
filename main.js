@@ -14,10 +14,10 @@ client.on('message', msg => {
 
 function command(cmd, cb) {
   axios.post(process.env.RCONWEBAPI_URL, {
-      RconRequest: {
-        Address: process.env.RCON_ADDRESS,
-        Password: process.env.RCON_PASSWORD,
-        Command: cmd
+      rcon_request: {
+        address: process.env.RCON_ADDRESS,
+        password: process.env.RCON_PASSWORD,
+        command: cmd
       }
     })
     .then(function (response) {
@@ -33,7 +33,7 @@ client.on('message', msg => {
   if (msg.content === '%status') {
     var cmd = "status";
     command(cmd, function(resp){
-      msg.reply('Fetching server status!\n' + "```" + resp.data.RconResponse.Output + "```");
+      msg.reply('Fetching server status!\n' + "```" + resp.data.rcon_response.output + "```");
     });
   }
 });
@@ -44,7 +44,7 @@ client.on('message', msg => {
     var map_name = msg.content.split(" ")[1]
     var cmd  = "changelevel " + map_name
     command(cmd, function (response) {
-      msg.reply('Changing map to ' + map_name + '!\n' + "```" + response.data.RconResponse.Output + "```");
+      msg.reply('Changing map to ' + map_name + '!\n' + "```" + response.data.rcon_response.output + "```");
     })
   }
 });
@@ -56,7 +56,7 @@ client.on('message', msg => {
     var workshop_map_number = msg.content.split(" ")[1]
     var cmd = "host_workshop_map " + workshop_map_number
     command(cmd, function (response) {
-      msg.reply('Changing map to ' + workshop_map_number + '!\n' + "```" + response.data.RconResponse.Output + "```");
+      msg.reply('Changing map to ' + workshop_map_number + '!\n' + "```" + response.data.rcon_response.output + "```");
     })
   }
 });
@@ -69,7 +69,7 @@ client.on('message', msg => {
     var cmd = command_strings.join(" ");
     command(cmd, function (response) {
       if (response.data.RconResponse.Output.length > 0) {
-        msg.reply('Raw Command: `' + cmd + '`\n' + "```" + response.data.RconResponse.Output + "```");
+        msg.reply('Raw Command: `' + cmd + '`\n' + "```" + response.data.rcon_response.output + "```");
       } else {
         msg.reply('Raw Command: `' + cmd + '`!\n');
       }
@@ -116,7 +116,7 @@ client.on('message', msg => {
     cmds.forEach(function(cmd) {
       command(cmd, function (response) {
         if (response.data.RconResponse.Output.length > 0) {
-          msg.reply('Installed surf setting: `' + cmd + '`\n' + "```" + response.data.RconResponse.Output + "```");
+          msg.reply('Installed surf setting: `' + cmd + '`\n' + "```" + response.data.rcon_response.output + "```");
         } else {
           msg.reply('Installed surf setting: `' + cmd + '`\n');
         }
