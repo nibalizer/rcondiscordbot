@@ -69,9 +69,9 @@ client.on('message', msg => {
     var cmd = command_strings.join(" ");
     command(cmd, function (response) {
       if (response.data.RconResponse.Output.length > 0) {
-        msg.reply('Raw Command: ' + cmd + '!\n' + "```" + response.data.RconResponse.Output + "```");
+        msg.reply('Raw Command: `' + cmd + '`\n' + "```" + response.data.RconResponse.Output + "```");
       } else {
-        msg.reply('Raw Command: ' + cmd + '!\n');
+        msg.reply('Raw Command: `' + cmd + '`!\n');
       }
     });
   }
